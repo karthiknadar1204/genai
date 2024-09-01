@@ -59,3 +59,31 @@
   - number of choices: the number of completions to generate. default: 1
 - seed: 88888
   - If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same seed and parameters should return the same result. Determinism is not guaranteed, and you should refer to the system_fingerprint response parameter to monitor changes in the backend.
+
+
+
+
+
+
+### 2.1 Setup new chat-app project
+
+- `npm init -y`
+- `npm i -D typescript ts-node @types/node`
+- `npx tsc --init`
+- `npm i openai tiktoken`
+
+
+### 2.2 Build the Chat with OpenAI
+
+- we will use the console as the chat interface
+  - use `process.stdin.addListener`
+
+### 2.3 Add chat history (context)
+
+- you can build this by simply pushing the user and assistant messages to an array and then using that array as the context for the next message
+
+### 2.4 Set token limit
+
+- Why keep context small?
+  - to control the cost
+  - to avoid any errors due to large context since gpt-3.5-turbo has a limit of 16,385
