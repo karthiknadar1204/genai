@@ -91,7 +91,34 @@
 ### 2.5 Add chat history (context)
 
 - you can build this by simply pushing the user and assistant messages to an array and then using that array as the context for the next message
-        // max_tokens: 60,
-        // n:2,
-        // frequency_penalty: 0.5,
-        // seed:88888,
+-The removeOlderTokens function is designed to manage the size of the context array by ensuring that the total number of tokens does not exceed a specified maximum (MAX_TOKENS). Here's a step-by-step explanation of how it works and its purpose:
+Purpose
+The function ensures that the context used for generating chat completions does not become too large. This is important because:
+- 1. API Limits: The OpenAI API has limits on the number of tokens that can be processed in a single request.
+- 2.Performance: Keeping the context within a manageable size can improve performance and response times.
+- 3. Cost: Reducing the number of tokens can help manage costs, as API usage is often billed based on the number of tokens processed.
+
+
+
+
+## 3 OpenAI Function calling or Tools
+
+### 3.1 Introduction
+
+- https://platform.openai.com/docs/guides/function-calling
+- Why function calling?
+  - Chatgpt only has access to the trained data set ex: for gpt 3 the training data is till 2021
+  - to get the latest data we can use function calling
+    - ex: what is the latest price of bitcoin or what is the date today?
+    - to solve this we can use function calling. So the openai model can be prompted to call a function to get the latest data
+- so we can do
+  - access the latest data or real time data
+  - modify/mutation of data ex: in a DB
+  - act like a live chat bot which can interact with the user in real time
+
+Topics to cover:
+
+- setup function calling
+- parameters of the function
+- multiple functions
+- project for demo
