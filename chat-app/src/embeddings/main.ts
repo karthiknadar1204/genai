@@ -47,7 +47,7 @@ export const generateEmbeddings = async (input: string | string[]) => {
     saveEmbeddingsToJson(dataWithEmbeddings, "dataWithEmbeddings.json");
   };
 
-  main();
+//   main();
 
 
 // generateEmbeddings(["Hello, world!","How are you?"]);
