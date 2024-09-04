@@ -1,3 +1,26 @@
+## Build AI Projects with Node.js, OpenAI, LangChain, Vector DBs, HuggingFace and TypeScript
+
+## 1. OpenAI Fundamentals
+
+### 1.1 OpenAI Setup, Create api key and run first prompt
+
+- docs: https://platform.openai.com/docs/quickstart
+- OpenAI API Key
+  - https://openai.com/index/openai-api/
+  - https://platform.openai.com/
+- Create a node/npm project
+  - `npm init -y`
+  - `npm install openai`
+- run a prompt
+- Note: `--env-file=.env` is used to load the environment variables from the .env file
+
+### 1.2 Typescript setup
+
+- `npm i -D typescript ts-node @types/node`
+- `npx tsc --init`
+
+### 1.3 OpenAI and Open Source Models ex HuggingFace
+
 - What is a model?
   - A model is a machine learning system that generates predictions based on data. It is the core of the OpenAI API.
   - The OpenAI API provides a range of models that can be used to generate text, images, and more.
@@ -17,7 +40,7 @@
   - HuggingFace: https://huggingface.co/
   - https://huggingface.co/models
 
-### 1.0 Tokens:
+### 1.5 Tokens:
 
 - https://platform.openai.com/tokenizer
 - Tokens are the smallest unit of text that the model can generate. The model generates text by predicting the next token in a sequence of tokens.
@@ -34,13 +57,13 @@
   - https://github.com/dqbd/tiktoken
   - `npm i tiktoken`
 
-### 1.1 Roles
+### 1.7 Roles
 
 - System
 - User
 - Assistant
 
-### 1.2 OpenAI API and playground parameters
+### 1.8 OpenAI API and playground parameters
 
 - Temperature
   - The temperature parameter controls the randomness of the model's predictions. A higher temperature will result in more random predictions, while a lower temperature will result in more predictable predictions.
@@ -60,10 +83,12 @@
 - seed: 88888
   - If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same seed and parameters should return the same result. Determinism is not guaranteed, and you should refer to the system_fingerprint response parameter to monitor changes in the backend.
 
+## 2 Simple Chat Project
 
-
-
-
+- Features:
+  - Chat with OpenAI
+  - Add chat history (context)
+  - Set token limit
 
 ### 2.1 Setup new chat-app project
 
@@ -71,7 +96,6 @@
 - `npm i -D typescript ts-node @types/node`
 - `npx tsc --init`
 - `npm i openai tiktoken`
-
 
 ### 2.2 Build the Chat with OpenAI
 
@@ -87,19 +111,6 @@
 - Why keep context small?
   - to control the cost
   - to avoid any errors due to large context since gpt-3.5-turbo has a limit of 16,385
-
-### 2.5 Add chat history (context)
-
-- you can build this by simply pushing the user and assistant messages to an array and then using that array as the context for the next message
--The removeOlderTokens function is designed to manage the size of the context array by ensuring that the total number of tokens does not exceed a specified maximum (MAX_TOKENS). Here's a step-by-step explanation of how it works and its purpose:
-Purpose
-The function ensures that the context used for generating chat completions does not become too large. This is important because:
-- 1. API Limits: The OpenAI API has limits on the number of tokens that can be processed in a single request.
-- 2.Performance: Keeping the context within a manageable size can improve performance and response times.
-- 3. Cost: Reducing the number of tokens can help manage costs, as API usage is often billed based on the number of tokens processed.
-
-
-
 
 ## 3 OpenAI Function calling or Tools
 
@@ -122,3 +133,86 @@ Topics to cover:
 - parameters of the function
 - multiple functions
 - project for demo
+
+### 3.2 Setup function calling
+
+- Configure the function calling
+- Decide which function to call
+- Call the function
+- call openAI with the function response
+
+### 3.3 Function calling parameters
+
+### 3.4 Project (Train Reservation System Assistant)
+
+- Product Requirement:
+
+  - User should be able to ask for trains between two stations
+    - ex: "what are the trains between Mumbai and Delhi?"
+  - Agent should respond with the train details
+    - ex: "There are two trains: Rajdhani and Shatabdi"
+  - User should be able to ask for making a reservation
+    - ex: "I want to book a ticket for Rajdhani"
+  - Agent should respond with the reservation details
+    - ex: "Your ticket is booked for Rajdhani. PNR is 123456"
+
+- Tech features to implement:
+  - Function calling
+    - getTrainsBetweenStations(source, destination)
+    - bookTicket(trainName, date)
+  - Context
+
+## 4. Embedding and Similarity
+
+- Concepts
+  - what are embeddings?
+  - what are openai embeddings?
+  - What is similarity?
+  - Project: Recommendation system
+
+### 4.1 Embeddings
+
+- Embeddings are numerical representations of data ex: text, images, audio etc.
+- Text embeddings are numerical representations of text data
+- Embeddings take the form of a vector ie a list of numbers
+- Embedding latent space: the space in which the items are placed close to each other if they are similar and far if they are dissimilar
+
+- Similarity
+
+  - Similarity is a measure of how similar two items are
+  - Dot product: a mathematical operation that gives a measure of similarity between two vectors ex: refer the image dot-product-similarity.png
+  - Cosine similarity: a measure of similarity between two non-zero vectors of an inner product space that measures the cosine of the angle between them
+
+- Embedding Models:
+- https://platform.openai.com/docs/guides/embeddings/embedding-models
+  - OpenAI has a range of embedding models that can be used to generate embeddings for text data
+  - openai embedding models ex:
+    - text-embedding-3-small (higher PAGES PER DOLLAR hence cheaper)
+    - text-embedding-3-large
+    - text-embedding-ada-002
+- text ---> embedding model ---> embeddings
+  - ex: "hello world" ---> text-embedding-3-small ---> [0.1, 0.2, 0.3, ...]
+- why we need to create embeddings?
+  - to compare the similarity between two texts
+  - to implement recommendation systems
+- read more about embeddings: https://openai.com/index/new-embedding-models-and-api-updates/
+- open ai can have up to 3072 embedding dimensions
+- hugging face leader board: https://huggingface.co/spaces/mteb/leaderboard
+  - can use this to compare the embeddings dimeansion
+
+### 4.2 OpenAI Embeddings
+
+- `openai.embeddings.create`
+
+### 4.3 Gnerate multiple embeddings and save embeddings json file
+
+### 4.4 Calculate similarity between embeddings
+
+### 4.5 Project: Recommendation system
+
+- Product Requirement:
+  - User should be able to ask for recommendations based on a given text
+    - ex: "I like french food"
+  - Agent should respond with the recommendations of dishes
+    - ex: "You may like croissants, baguettes, and macarons"
+- for prod level project use dataset like: https://www.kaggle.com/datasets?search=food
