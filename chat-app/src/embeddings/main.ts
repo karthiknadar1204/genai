@@ -18,7 +18,7 @@ export const generateEmbeddings = async (input: string | string[]) => {
     return response;
   };
 
-generateEmbeddings("Hello, world!");
+generateEmbeddings(["Hello, world!","How are you?"]);
 
 
 
