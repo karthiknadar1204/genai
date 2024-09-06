@@ -223,60 +223,126 @@ Topics to cover:
 
 
 
-5 Vector Databases - Pinecone and ChromaDB
-5.1 Intro the section
-What vector DB is and why do we need them in a production setup
+## 5 Vector Databases - Pinecone and ChromaDB
 
-We will learn about
+### 5.1 Intro the section
 
-ChromaDB - open source vector DB, run locally on our machine
-https://www.trychroma.com/
-python and Docker installation
-PineCone:
-managed vector DB,
-this is going to need registration of our account
-Project: "FAQ Chatbot"
+- What vector DB is and why do we need them in a production setup
+- We will learn about
 
-store the data into a vector DB
-before storing makes sure to break the data into chunks
-Ask a question
-query the DB for the most relevant data with higher similarity
-it will find the most relevant chunk of data
-in the end, use the most relevant data and OpenAI API
-5.2 What is Vector DB and why vector DB?
-Why do we need vector DB and what was the problem with traditional DB?
+  - ChromaDB - open source vector DB, run locally on our machine
+    - https://www.trychroma.com/
+    - python and Docker installation
+  - PineCone:
+    - managed vector DB,
+    - this is going to need registration of our account
 
-Traditional DBs are not good for similarity search
-Vector DBs are optimized for similarity search
-ex: for recommendation systems, chatbots, search engines etc
-We need vector DB for better data processing and retrieval
+- Project: "FAQ Chatbot"
+  - store the data into a vector DB
+    - before storing makes sure to break the data into chunks
+  - Ask a question
+  - query the DB for the most relevant data with higher similarity
+    - it will find the most relevant chunk of data
+  - in the end, use the most relevant data and OpenAI API
 
-Poular vector DBs:
+### 5.2 What is Vector DB and why vector DB?
 
-Pinecone
-Chroma
-Redis
-PostgreSQL - with the help of plugins like: PG Vector extension
-Milvus: https://milvus.io/
-Weaviate: https://weaviate.io/
-Annoy: https://github.com/spotify/annoy
-What are vector databases?
+- Why do we need vector DB and what was the problem with traditional DB?
+  - Traditional DBs are not good for similarity search
+  - Vector DBs are optimized for similarity search
+  - ex: for recommendation systems, chatbots, search engines etc
+- We need vector DB for better data processing and retrieval
+- Poular vector DBs:
 
-Vector databases are databases that store and query vector data
-Vector data is data that can be represented as a vector, which is a list of numbers
-Vector databases are optimized for similarity search, which is the process of finding items that are similar to a given item
-Vector databases are used in a wide range of applications, including recommendation systems, search engines, and natural language processing
-How vector databases are different from traditional databases?
+  - Pinecone
+  - Chroma
+  - Redis
+  - PostgreSQL - with the help of plugins like: PG Vector extension
+  - Milvus: https://milvus.io/
+  - Weaviate: https://weaviate.io/
+  - Annoy: https://github.com/spotify/annoy
 
-Storage:
-Traditional databases are optimized for storing and querying structured data, such as text, numbers, and dates
-Vector databases are optimized for storing and querying vector data, which is a list of numbers that represents an item. vector dbs holds data + the embeddings of the data
-Query:
-Vector databases use specialized algorithms and data structures to efficiently search for items that are similar to a given item ex: cosine similarity and dot product similarity. vecotr db uses embeddings as query parameters
-while traditional databases use SQL to query based on values match
-Algorithms:
-Vector databases use algorithms such as nearest neighbor search to find items that are similar to a given item
-Traditional databases use algorithms such as B-trees and hash tables to search for items based on their values
+- What are vector databases?
+  - Vector databases are databases that store and query vector data
+  - Vector data is data that can be represented as a vector, which is a list of numbers
+  - Vector databases are optimized for similarity search, which is the process of finding items that are similar to a given item
+  - Vector databases are used in a wide range of applications, including recommendation systems, search engines, and natural language processing
+- How vector databases are different from traditional databases?
+
+  - Storage:
+    - Traditional databases are optimized for storing and querying structured data, such as text, numbers, and dates
+    - Vector databases are optimized for storing and querying vector data, which is a list of numbers that represents an item. vector dbs holds data + the embeddings of the data
+  - Query:
+    - Vector databases use specialized algorithms and data structures to efficiently search for items that are similar to a given item ex: cosine similarity and dot product similarity. vecotr db uses embeddings as query parameters
+    - while traditional databases use SQL to query based on values match
+  - Algorithms:
+    - Vector databases use algorithms such as nearest neighbor search to find items that are similar to a given item
+    - Traditional databases use algorithms such as B-trees and hash tables to search for items based on their values
+
+
+### 5.3 ChromaDB set up on machine
+
+- ChromaDB is an open-source vector database that is optimized for similarity search
+- it is written in python
+- requirement: python and docker
+  - install docker from : https://www.docker.com/products/docker-desktop/
+  - install docker vscode extension (optional)
+- docs: https://www.trychroma.com/
+- https://github.com/chroma-core/chroma
+
+- check docker: `docker --version`
+- let's deploy a chroma docker image:
+  - https://docs.trychroma.com/deployment/aws#docker
+  - `docker pull chromadb/chroma`
+  - `docker run -p 8000:8000 chromadb/chroma`
+  - once running you can test the heartbeat at: http://0.0.0.0:8000/api/v1
+
+### 5.4 ChromaDB client setup in chat-app
+
+- `npm i chromadb`
+- you can check list of collections at: http://0.0.0.0:8000/api/v1/collections
+- list of APIs: http://0.0.0.0:8000/docs
+
+### 5.5 using open AI embeddings and storing in ChromaDB with embedding function
+
+- Read more about chromadb embed integration: https://docs.trychroma.com/integrations#%F0%9F%A7%AC-embedding-integrations
+
+- open ai model integration: https://docs.trychroma.com/integrations/openai
+
+### 5.5 Embedding Query
+
+- we will learn how to query based on embeddings using similarity search
+- query will return must relevant results based on the similarity
+- context injection: we will provide openai with context for a query
+
+### 5.6 Project: FAQ Chatbot
+
+### 5.7 Pinecone VectorDB
+
+- https://www.pinecone.io/
+- managed vector DB
+  - no need to manage the infrastructure
+  - easy to use
+- it supports meta data as well
+  - so you can store the embeddings and the meta data
+
+### 5.8 Create PineCone index
+
+- we can create the index using web or through code
+- we will use the code to create the index
+
+### 5.9 Pinecone index operations
+
+- we will run some operations on the pinecone index
+  - create index (5.8)
+  - list indexes
+  - get index
+  - describe index
+  - create collection
+  - upsert
+  - query
+
+### 6.0 Project: FAQ Chatbot with Pinecone
 
 
 
