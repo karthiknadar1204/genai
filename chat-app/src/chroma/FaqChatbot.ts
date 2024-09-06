@@ -36,7 +36,7 @@ const embeddingFunction: OpenAIEmbeddingFunction = new OpenAIEmbeddingFunction({
   openai_model: "text-embedding-3-small",
 });
 
-const collectionName = "faq-singapore";
+const collectionName = "faq-singapore-2";
 
 const createCollection = async () => {
   await chroma.createCollection({
@@ -44,3 +44,63 @@ const createCollection = async () => {
   });
 };
 
+const getCollection = async () => {
+  const collection = await chroma.getCollection({
+    name: collectionName,
+    embeddingFunction: embeddingFunction,
+  });
+  return collection;
+};
+
+const populateCollection = async () => {
+  const collection = await getCollection();
+  await collection.add({
+    ids: ["id1", "id2", "id3"],
+    documents: [faqSingaporeInfo, faqIndiaInfo, faqAustraliaInfo],
+  });
+};
+
+const askQuestion = async () => {
+  const question = "What's the population of Singapore?";
+  const collection = await getCollection();
+
+//   this query is used to find the most relevant piece of information from the
+//    collection that matches the user's question. The retrieved information is
+//     then used to generate a more accurate answer using the OpenAI API.
+
+  const response = await collection.query({
+    queryTexts: question,
+    nResults: 1,
+  });
+
+  const relevantInfo = response.documents[0][0];
+  if (relevantInfo) {
+    const openai = new OpenAI();
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      temperature: 0,
+      messages: [
+        // This is called context injection
+        {
+          role: "assistant",
+          content: `Answer the next question using the information provided: ${relevantInfo}`,
+        },
+        {
+          role: "user",
+          content: question,
+        },
+      ],
+    });
+    const responseMsg = response.choices[0].message;
+    console.log(responseMsg);
+  } else {
+    console.log("No relevant information found");
+  }
+};
+
+const main = async () => {
+//   await createCollection();
+//   await populateCollection();
+  await askQuestion();
+};
+main();
