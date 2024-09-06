@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node -r dotenv/config -r ts-node/register src/embeddings/foodRecs/FoodRec.ts",
+    "start": "node -r dotenv/config -r ts-node/register src/chroma/Client.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -17,6 +17,7 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "chromadb": "^1.8.1",
     "openai": "^4.57.0",
     "tiktoken": "^1.0.16"
   }
